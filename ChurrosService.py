@@ -3,12 +3,12 @@ import time
 import random
 from SMWinservice import SMWinservice
 import hash4dup
-
+			
 # CLASSE DE UM SERVIÇO DO WINDOWS SERVICE
 class Churros (SMWinservice):
 	_svc_name_ = 'Churros'
 	_svc_display_name_ = 'Churros Service'
-	_svc_description_ = 'Fornece churros com recheio de doce de leite aos usuários que rodarem esse serviço.'
+	_svc_description_ = 'Apaga arquivos duplicatas dentro de um diretório.'
 
 	def start(self):
 		self.isrunning = True
@@ -17,9 +17,46 @@ class Churros (SMWinservice):
 		self.isrunning = False
 
 	def main(self):
+		
+		while self.isrunning:
+			# lista com todas as pastas e subpastas
+			folder = 'C:\\Users\\famil\\Desktop\\Jonas\\SO2\\ChurrosService\\root'
+			folders = hash4dup.allpaths(folder,[folder,])
+			#print('All paths found.')
+			
+			duplicates = {}
+			for f in folders: # Iterate the folders given
+				#print(f)
+				# Find the duplicated files and append them to the dups
+				if os.path.exists(f):
+					print('Searching duplicates inside:\t\'{}\''.format(f))
+					joinDicts(duplicates, findDup(f))
+			
+			#print('Making log.')
+			logfile = open('C:\\Users\\famil\\Desktop\\Jonas\\SO2\\ChurrosService\\DeleteLog.txt', 'a+')
+			
+			self.isrunning = not results(duplicates, logfile)
+			time.sleep(15)
+
+
+		'''
 		while self.isrunning:
 			time.sleep(15)
-			
+		'''
+		'''
+			# lista com todas as pastas e subpastas
+			folder = 'C:\\Users\\famil\\Desktop\\Jonas\\SO2\\ChurrosService\\root'
+			folders = allpaths(folder,[folder,])
+
+			duplicates = {}
+			for f in folders: # Iterate the folders given
+				#print(f)
+				# Find the duplicated files and append them to the dups
+				if os.path.exists(f):
+					joinDicts(duplicates, findDup(f))
+				results(duplicates)
+
+		'''	
 			
 # entry point of the module: copy and paste into the new module
 # ensuring you are calling the "parse_command_line" of the new created class

@@ -48,9 +48,8 @@ def path_leaf(path):
     head, tail = ntpath.split(path)
     return tail or ntpath.basename(head)
 
-def results(dict1):
+def results(dict1, logfile):
 	results = list(filter(lambda x: len(x) > 1, dict1.values()))
-	logfile = open('C:/Users/famil/Desktop/Jonas/SO2/ChurrosService/DeleteLog.txt', 'a+')
 	if len(results) > 0:
 		#print('Duplicatas descobertas...')
 		for result in results:
@@ -66,18 +65,27 @@ def results(dict1):
 						os.remove(pathname)
 				i += 1
 		logfile.close()
+		return True
+	
 	else:
-		#print('Não havia arquivos repetidos.')
+		print('Não havia arquivos repetidos.')
+		return False
+
+################################################
 
 if __name__ == '__main__':
 	# lista com todas as pastas e subpastas
 	folder = 'C:\\Users\\famil\\Desktop\\Jonas\\SO2\\ChurrosService\\root'
-	folders = allpaths(folder,[folder,])
-
+	folders = hash4dup.allpaths(folder,[folder,])
+	#print('All paths found.')
+	
 	duplicates = {}
 	for f in folders: # Iterate the folders given
 		#print(f)
 		# Find the duplicated files and append them to the dups
 		if os.path.exists(f):
+			print('Searching duplicates inside:\t\'{}\''.format(f))
 			joinDicts(duplicates, findDup(f))
-		results(duplicates)
+	print('Making log.')
+	logfile = open('C:\\Users\\famil\\Desktop\\Jonas\\SO2\\ChurrosService\\DeleteLog.txt', 'a+')
+	self.isrunning = not results(duplicates, logfile)

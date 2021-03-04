@@ -1,6 +1,6 @@
 import time
 import random
-#from pathlib import Path
+from pathlib import Path
 from SMWinservice import SMWinservice 
 
 # CLASSE DE UM SERVIÇO DO WINDOWS SERVICE
@@ -11,20 +11,17 @@ class Churros (SMWinservice):
 
 	def start(self):
 		self.isrunning = True
-		pass
 
 	def stop(self):
 		self.isrunning = False
-		pass
 
 	def main(self):
 		i = 0
 		while self.isrunning:
 			random.seed()
 			x = random.randint(1,100000)
-			Path(f'C:/Users/famil/Desktop/ChurrosService/pasta/{x}_copia.txt').touch()
+			Path(f'C:\\Users\\famil\\Desktop\\Jonas\\SO2\\ChurrosService\\pastaalvo\\{x}_copia.txt').touch()
 			time.sleep(5)
-		pass
 
 # entry point of the module: copy and paste into the new module
 # ensuring you are calling the "parse_command_line" of the new created class

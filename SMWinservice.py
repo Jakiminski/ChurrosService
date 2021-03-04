@@ -6,7 +6,7 @@
 import socket
 import win32serviceutil
 import servicemanager
-import win32serviceutil
+import win32event
 import win32service
 
 # CLASSE BASE EM PYTHON PARA CRIAR UM SERVIÇO DO WINDOWS SERVICE
@@ -18,25 +18,22 @@ class SMWinservice (win32serviceutil.ServiceFramework):
 	@classmethod
 	def parse_command_line(cls):
 		win32serviceutil.HandleCommandLine(cls)
-		pass
 
 	def __init__(self, args):
 		win32serviceutil.ServiceFramework.__init__(self, args)
 		self.hWaitStop = win32event.CreateEvent(None, 0, 0, None)
 		socket.setdefaulttimeout(120)
-		pass
 
 	def SvcStop(self):
 		# Chamado quando o serviço for parado
 		self.stop()
 		self.ReportServiceStatus(win32service.SERVICE_STOP_PENDING)
 		win32event.SetEvent(self.hWaitStop)
-		pass
 
 	def SvcDoRun(self):
 		#Chamado quando o serviço for iniciado
 		self.start()
-		servicemanager.LogMsg(servicemanager.EVENTLOG_INFORMATION_TYPE, servicemanager.PYS_SERVICE_STARTED, (self._svc_name_, ''))
+		servicemanager.LogMsg(servicemanager.EVENTLOG_INFORMATION_TYPE, servicemanager.PYS_SERVICE_STARTED,(self._svc_name_, ''))
 		self.main()
 
 	def start(self):

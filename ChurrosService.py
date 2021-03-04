@@ -1,7 +1,7 @@
 import time
 import random
-from pathlib import Path
-from SMWinservice import SMWinservice 
+from SMWinservice import SMWinservice
+import hash4dup
 
 # CLASSE DE UM SERVIÇO DO WINDOWS SERVICE
 class Churros (SMWinservice):
@@ -16,13 +16,20 @@ class Churros (SMWinservice):
 		self.isrunning = False
 
 	def main(self):
-		i = 0
 		while self.isrunning:
-			random.seed()
-			x = random.randint(1,100000)
-			Path(f'C:\\Users\\famil\\Desktop\\Jonas\\SO2\\ChurrosService\\pastaalvo\\{x}_copia.txt').touch()
+			time.sleep(15)
+			folder = 'C:\\Users\\famil\\Desktop\\Jonas\\SO2\\ChurrosService\\root'
+			duplicates = {}
 			time.sleep(5)
-
+			# Iterate the folders given
+			if os.path.exists(folder):
+				# Find the duplicated files and append them to the dups
+				joinDicts(dups, findDup(folder))
+			else:
+				print('%s is not a valid path, please verify' % folder)
+			sys.exit()
+			printResults(duplicates)
+			
 # entry point of the module: copy and paste into the new module
 # ensuring you are calling the "parse_command_line" of the new created class
 if __name__ == '__main__':

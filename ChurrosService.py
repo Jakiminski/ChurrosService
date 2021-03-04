@@ -1,6 +1,7 @@
 import os, sys
 import time
 import random
+import traceback
 from SMWinservice import SMWinservice
 import hash4dup
 			
@@ -19,24 +20,32 @@ class Churros (SMWinservice):
 	def main(self):
 		
 		while self.isrunning:
+			try:
+				folder = 'C:\\Users\\famil\\Desktop\\Jonas\\SO2\\ChurrosService'
+				folders = hash4dup.allpaths(folder,[folder,])
+				#print('All paths found.')
+				
+				duplicates = {}
+				for f in folders: # Iterate the folders given
+					#print(f)
+					# Find the duplicated files and append them to the dups
+					if os.path.exists(f):
+						print('Searching duplicates inside:\t\'{}\''.format(f))
+						hash4dup.joinDicts(duplicates, hash4dup.findDup(f))
+				
+				#print('Making log.')
+				logfile = open('C:\\Users\\famil\\Desktop\\Jonas\\SO2\\ChurrosService\\DeleteLog.txt', 'a+')
+				
+				self.isrunning = not hash4dup.results(duplicates, logfile)
+				time.sleep(15)
+			except Exception:
+				print(traceback.format_exc())
+			    # or
+				print(sys.exc_info()[2])
+
+
 			# lista com todas as pastas e subpastas
-			folder = 'C:\\Users\\famil\\Desktop\\Jonas\\SO2\\ChurrosService\\root'
-			folders = hash4dup.allpaths(folder,[folder,])
-			#print('All paths found.')
 			
-			duplicates = {}
-			for f in folders: # Iterate the folders given
-				#print(f)
-				# Find the duplicated files and append them to the dups
-				if os.path.exists(f):
-					print('Searching duplicates inside:\t\'{}\''.format(f))
-					joinDicts(duplicates, findDup(f))
-			
-			#print('Making log.')
-			logfile = open('C:\\Users\\famil\\Desktop\\Jonas\\SO2\\ChurrosService\\DeleteLog.txt', 'a+')
-			
-			self.isrunning = not results(duplicates, logfile)
-			time.sleep(15)
 
 
 		'''

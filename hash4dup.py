@@ -75,7 +75,7 @@ def results(dict1, logfile):
 
 if __name__ == '__main__':
 	# lista com todas as pastas e subpastas
-	folder = 'C:\\Users\\famil\\Desktop\\Jonas\\SO2\\ChurrosService\\root'
+	folder = 'C:/Users/sacer_4t0in/Downloads/ChurrosService-main/ChurrosService-main'
 	folders = hash4dup.allpaths(folder,[folder,])
 	#print('All paths found.')
 	
@@ -87,5 +87,5 @@ if __name__ == '__main__':
 			print('Searching duplicates inside:\t\'{}\''.format(f))
 			joinDicts(duplicates, findDup(f))
 	print('Making log.')
-	logfile = open('C:\\Users\\famil\\Desktop\\Jonas\\SO2\\ChurrosService\\DeleteLog.txt', 'a+')
+	logfile = open('C:/Users/sacer_4t0in/Desktop/PythonService/LogPipoca', 'a+')
 	self.isrunning = not results(duplicates, logfile)
